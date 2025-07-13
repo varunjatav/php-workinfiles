@@ -72,11 +72,12 @@
 
 
  <?php 
- include "dbconnection.php";
- 
+ include "pdocon.php";
+ $db = new PDOcon();
  $query = "SELECT * FROM users";
 
- $run = mysqli_query($connection, $query);
+ $run = $db->prepare($query);
+
  /* 
   insert query
  */
@@ -169,7 +170,7 @@
 
 <div class="container">
   <h2>Bordered Table</h2>
-  <p>The .table-bordered class adds borders to a table:</p>            
+        
   <table class="table table-bordered">
     <thead>
         
@@ -182,12 +183,13 @@
     </thead>
     <tbody>
     <?php 
-       
-        while($results = mysqli_fetch_assoc($run)) {?>
+       $results = $db->fetch_multiple_data();
+        foreach($results as $result) {
+          ?>
       <tr>
-        <td><?php echo $results['full_name']  ?></td>
-        <td><?php echo $results['email']  ?></td>
-        <td><?php echo $results['password']  ?></td>
+        <td><?php echo $result['full_name']  ?></td>
+        <td><?php echo $result['email']  ?></td>
+        <td><?php echo $result['password']  ?></td>
       </tr>
 
       <?php } ?>
